@@ -15,7 +15,14 @@
     "userAttachmentLifetime" : "keepNever"
   },
   "testTargets" : [
-
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:TurboCalculator.xcodeproj",
+        "identifier" : "CE8FE3F22B5598C70001E2C8",
+        "name" : "CalculatorUITests"
+      }
+    }
   ],
   "version" : 1
 }

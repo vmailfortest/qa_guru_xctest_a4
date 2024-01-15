@@ -36,7 +36,7 @@ jobs:
           ruby -v
           bundle install
       - name: Build app
-        run: fastlane ios build_app
+        run: fastlane ios build_calculator
       - name: Run tests
         run: fastlane ios test_app
       - name: Install xcresults
