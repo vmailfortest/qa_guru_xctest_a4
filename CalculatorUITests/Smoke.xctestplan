@@ -1,0 +1,21 @@
+{
+  "configurations" : [
+    {
+      "id" : "08E12F26-2D79-4A31-B310-B5F771BDBE6D",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "preferredScreenCaptureFormat" : "screenshot",
+    "testExecutionOrdering" : "random",
+    "uiTestingScreenshotsLifetime" : "keepNever",
+    "userAttachmentLifetime" : "keepNever"
+  },
+  "testTargets" : [
+
+  ],
+  "version" : 1
+}

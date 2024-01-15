@@ -1,0 +1,20 @@
+{
+  "configurations" : [
+    {
+      "id" : "4B69952D-7F5F-4814-820C-31B74CC090FB",
+      "name" : "Configuration 1",
+      "options" : {
+        "language" : "",
+        "region" : "RU",
+        "testExecutionOrdering" : "random"
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+
+  ],
+  "version" : 1
+}
