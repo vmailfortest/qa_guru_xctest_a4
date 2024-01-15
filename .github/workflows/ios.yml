@@ -1,7 +1,16 @@
 name: iOS starter workflow
 
 on:
-  workflow_dispath
+  workflow_dispatch:
+    inputs:
+      testplan:
+        required: true
+        default: 'debug'
+        type: choice
+        options:
+          - debug
+          - regress
+          - smoke
 
 jobs:
   build:
