@@ -30,6 +30,7 @@ jobs:
         run: |
           rm -rf ./DerivedData
           rm -rf ./Report
+          rm -rf xcresults
       - name: Setup env
         run: |
           ruby -v
@@ -38,4 +39,20 @@ jobs:
         run: fastlane ios build_app
       - name: Run tests
         run: fastlane ios test_app
+      - name: Install xcresults
+        if: ${{ always()}}
+        run: |
+          curl -OL https://github.com/eroshenkoam/xcresults/releases/latest/download/xcresults
+          chmod +x xcresults
+      - name: Convert to allure results
+        if: ${{ always()}}
+        run: |
+          ./xcresults export ./Report/TurboCalculator.xcresult ./allure-results
+      - name: Save allure results
+        if: ${{ always()}}
+        uses: actions/upload-artifact@v4.1.0
+        with:
+          name: Allure
+          path: allure-results
+          retention-days: 30
         
