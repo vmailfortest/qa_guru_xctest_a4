@@ -1,4 +1,4 @@
-name: iOS starter workflow
+name: iOS UI-tests
 
 on:
   workflow_dispatch:
@@ -12,6 +12,10 @@ on:
           - regress
           - smoke
 
+env:
+  LC_ALL: en_US.UTF-8
+  LANG: en_US.UTF-8
+
 jobs:
   build:
     name: Build and Test default scheme using any available iPhone simulator
@@ -20,10 +24,18 @@ jobs:
     steps:
       - name: Checkout git
         uses: actions/checkout@v3
-      - name: Setup env
+      - name: Get info
         run: env
+      - name: Clean old files
+        run: |
+          rm -rf ./DerivedData
+          rm -rf ./Report
+      - name: Setup env
+        run: |
+          ruby -v
+          bundle install
       - name: Build app
-        run: pwd
+        run: fastlane ios build_app
       - name: Run tests
-        run: pwd
+        run: fastlane ios test_app
         
