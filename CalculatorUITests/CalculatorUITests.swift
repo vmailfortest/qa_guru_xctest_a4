@@ -19,11 +19,6 @@ final class CalculatorUITests: XCTestCase {
         add(attachment)
     }
     
-    func testFail() throws {
-        app.launch()
-        XCTFail("Failure from test")
-    }
-    
     func testSum() throws {
         app.launch()
         let button2 = app/*@START_MENU_TOKEN@*/.staticTexts["2"]/*[[".buttons[\"2\"].staticTexts[\"2\"]",".staticTexts[\"2\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.firstMatch
@@ -33,5 +28,65 @@ final class CalculatorUITests: XCTestCase {
         app.buttons["="].tap()
         XCTAssert(app.buttons["resultString"].staticTexts["4"].exists)
     }
-
+    
+    func testMinus() throws {
+        app.launch()
+        
+        app/*@START_MENU_TOKEN@*/.staticTexts["2"]/*[[".buttons[\"2\"].staticTexts[\"2\"]",".staticTexts[\"2\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.staticTexts["-"].tap()
+        app.staticTexts["5"].tap()
+        app.buttons["="].tap()
+        XCTAssert(app.buttons["resultString"].staticTexts["-3"].exists)
+    }
+    
+    func testDelete() throws {
+        app.launch()
+        
+        app.staticTexts["2"].tap()
+        app.staticTexts["9"].tap()
+        app.buttons["backspace"].tap()
+        app.staticTexts["+"].tap()
+        app.staticTexts["3"].tap()
+        app.buttons["="].tap()
+        XCTAssert(app.buttons["resultString"].staticTexts["5"].exists)
+    }
+    
+    func testEqualsTwice() throws {
+        app.launch()
+        
+        app.staticTexts["2"].tap()
+        app.staticTexts["x"].tap()
+        app.staticTexts["3"].tap()
+        app.buttons["="].tap()
+        XCTAssert(app.buttons["resultString"].staticTexts["6"].exists)
+        
+        app.staticTexts["x"].tap()
+        app.staticTexts["4"].tap()
+        app.buttons["="].tap()
+        XCTAssert(app.buttons["resultString"].staticTexts["24"].exists)
+    }
+    
+    func testClear() throws {
+        app.launch()
+        
+        app/*@START_MENU_TOKEN@*/.staticTexts["2"]/*[[".buttons[\"2\"].staticTexts[\"2\"]",".staticTexts[\"2\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.staticTexts["+"].tap()
+        app.staticTexts["3"].tap()
+        app.buttons["="].tap()
+        app.buttons["AC"].tap()
+        XCTAssert(app.buttons["resultString"].staticTexts["0"].exists)
+    }
+    
+    func testError() throws {
+        app.launch()
+        
+        app.staticTexts["%"].tap()
+        
+        XCTAssert(app.staticTexts["Ошибка"].exists)
+        XCTAssert(app.staticTexts["Введите знак процента после числа!"].exists)
+        
+        app.buttons["OK"].tap()
+        
+        XCTAssertFalse(app.staticTexts["Ошибка"].exists)
+    }
 }
