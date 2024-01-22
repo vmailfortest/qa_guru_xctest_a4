@@ -53,7 +53,7 @@ jobs:
       - name: Build app
         run: fastlane ios build_calculator
       - name: Run tests
-        run: fastlane ios test_app testplan:$TESTPLAN device:$DEVICE
+        run: fastlane ios test_app testplan:"${TESTPLAN}" device:"${DEVICE}"
       - name: Install xcresults
         if: ${{ always()}}
         run: |
