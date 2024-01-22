@@ -79,7 +79,7 @@ jobs:
     name: Send report to TestOPS
     needs: build
     runs-on: ubuntu-latest
-
+    steps:
       - name: Download allure results
         uses: actions/download-artifact@v4
         with:
