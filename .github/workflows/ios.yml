@@ -5,16 +5,27 @@ on:
     inputs:
       testplan:
         required: true
-        default: 'debug'
+        default: 'Debug'
         type: choice
         options:
-          - debug
-          - regress
-          - smoke
+          - Debug
+          - Regress
+          - Smoke
+      device:
+        required: true
+        default: 'iPhone 13'
+        type: choice
+        options:
+          - 'iPhone 13'
+          - 'iPhone 14'
+          - 'iPhone 15'
+          - 'iPhone 15 Pro'
 
 env:
   LC_ALL: en_US.UTF-8
   LANG: en_US.UTF-8
+  TESTPLAN: ${{ github.inputs.testplan || 'debug' }}
+  DEVICE: ${{ github.inputs.device || 'iPhone 13' }}
 
 jobs:
   build:
@@ -38,7 +49,7 @@ jobs:
       - name: Build app
         run: fastlane ios build_calculator
       - name: Run tests
-        run: fastlane ios test_app
+        run: fastlane ios test_app testplan:$TESTPLAN device:$DEVICE
       - name: Install xcresults
         if: ${{ always()}}
         run: |
