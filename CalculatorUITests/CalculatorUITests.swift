@@ -11,6 +11,7 @@ final class CalculatorUITests: XCTestCase {
     override func tearDownWithError() throws {}
 
     func testExample() throws {
+        testOpsId(29610)
         step("Запуск приложения") {
             app.launch()
         }
@@ -22,6 +23,7 @@ final class CalculatorUITests: XCTestCase {
     }
     
     func testSum() throws {
+        testOpsId(29609)
         step("Запуск приложения") {
             app.launch()
         }
@@ -34,6 +36,7 @@ final class CalculatorUITests: XCTestCase {
     }
     
     func testSkip() throws {
+        testOpsId(29611)
         step("Запуск приложения") {
             app.launch()
         }

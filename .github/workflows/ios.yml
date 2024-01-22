@@ -30,6 +30,10 @@ env:
   LANG: en_US.UTF-8
   TESTPLAN: ${{ inputs.testplan || 'Debug' }}
   DEVICE: ${{ inputs.device || 'iPhone 14' }}
+  ALLURE_TOKEN: ${{ secrets.ALLURE_TOKEN }}
+  ALLURE_ENDPOINT: https://allure.autotests.cloud/
+  ALLURE_PROJECT_ID: 3978
+  ALLURE_RESULTS: allure-results
 
 jobs:
   build:
@@ -70,4 +74,11 @@ jobs:
           name: Allure
           path: allure-results
           retention-days: 30
-        
+      - name: Upload allure-results to Allure EE
+        uses: simple-elf/allurectl-action@master
+        id: allure-ee
+        with:
+          allure_results: $ALLURE_RESULTS
+          allure_ee_endpoint: $ALLURE_ENDPOINT
+          allure_ee_token: $ALLURE_TOKEN
+          project_id: $ALLURE_PROJECT_ID
