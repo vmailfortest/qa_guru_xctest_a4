@@ -74,7 +74,19 @@ jobs:
           name: Allure
           path: allure-results
           retention-days: 30
-      - name: Upload allure-results to Allure EE
+
+  report:
+    name: Send report to TestOPS
+    needs: build
+    runs-on: ubuntu-latest
+
+      - name: Download allure results
+        uses: actions/download-artifact@v4
+        with:
+          name: Allure
+          path: allure-results   
+
+      - name: Upload allure-results to Allure TestOPS
         uses: simple-elf/allurectl-action@master
         id: allure-ee
         with:
