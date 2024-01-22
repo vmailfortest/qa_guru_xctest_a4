@@ -1,6 +1,10 @@
 name: iOS UI-tests
 
 on:
+  push:
+    branches:
+      - main
+      - develop
   workflow_dispatch:
     inputs:
       testplan:
@@ -24,8 +28,8 @@ on:
 env:
   LC_ALL: en_US.UTF-8
   LANG: en_US.UTF-8
-  TESTPLAN: ${{ github.inputs.testplan || 'debug' }}
-  DEVICE: ${{ github.inputs.device || 'iPhone 13' }}
+  TESTPLAN: ${{ inputs.testplan || 'Debug' }}
+  DEVICE: ${{ inputs.device || 'iPhone 14' }}
 
 jobs:
   build:
