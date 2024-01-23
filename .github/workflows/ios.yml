@@ -90,17 +90,16 @@ jobs:
 
       - name: Upload Results to TestOPS
         if: ${{ always()}}
-        env:
-          LAUNCH_NAME: "Launch ${{ env.GITHUB_RUN_NUMBER }} from ${{ env.GITHUB_REPOSITORY }}"
         run: |
           ./allurectl upload \
             --endpoint https://allure.autotests.cloud/ \
             --token ${{ secrets.ALLURE_TOKEN }} \
             --project-id 3978 \
-            --launch-name "${LAUNCH_NAME}" \
+            --launch-name  "CI Launch ${{ env.GITHUB_RUN_NUMBER }} of ${{ env.TESTPLAN }} testplan on ${{ env.DEVICE }}" \
             allure-results
 
       - name: Adding Summary
         if: ${{ always()}}
         run: | 
-          echo "### Hello QA Guru! :rocket:" >> $GITHUB_STEP_SUMMARY
+          echo "### Hello QA Guru! :fire:" >> $GITHUB_STEP_SUMMARY
+          echo "Launch ${{ env.GITHUB_RUN_NUMBER }} of ${{ env.TESTPLAN }} testplan on ${{ env.DEVICE }}" >> $GITHUB_STEP_SUMMARY
