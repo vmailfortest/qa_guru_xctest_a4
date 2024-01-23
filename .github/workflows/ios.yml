@@ -95,7 +95,7 @@ jobs:
             --endpoint https://allure.autotests.cloud/ \
             --token ${{ secrets.ALLURE_TOKEN }} \
             --project-id 3978 \
-            --launch-name  "CI Launch ${{ env.GITHUB_RUN_NUMBER }} of ${{ env.TESTPLAN }} testplan on ${{ env.DEVICE }}" \
+            --launch-name  "Launch ${{ github.run_number }} of ${{ env.TESTPLAN }} testplan on ${{ env.DEVICE }}" \
             allure-results
 
       - name: Adding Summary
