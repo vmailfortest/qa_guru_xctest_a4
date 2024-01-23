@@ -90,11 +90,11 @@ jobs:
       - name: Upload Results to TestOPS
         if: ${{ always()}}
         env:
-          LAUNCH_NAME: 'Launch $GITHUB_RUN_NUMBER from $GITHUB_REPOSITORY'
+          LAUNCH_NAME: "Launch ${GITHUB_RUN_NUMBER} from ${GITHUB_REPOSITORY}"
         run: |
           ./allurectl upload \
             --endpoint https://allure.autotests.cloud/ \
             --token ${{ secrets.ALLURE_TOKEN }} \
             --project-id 3978 \
-            --launch-name ${LAUNCH_NAME} \
+            --launch-name "${LAUNCH_NAME}"" \
             allure-results
