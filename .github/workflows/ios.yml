@@ -26,71 +26,74 @@ on:
           - 'iPhone 15 Pro'
 
 env:
-  LC_ALL: en_US.UTF-8
-  LANG: en_US.UTF-8
+  LC_ALL: 'en_US.UTF-8'
+  LANG: 'en_US.UTF-8'
+  LANGUAGE: 'en_US.UTF-8'
   TESTPLAN: ${{ inputs.testplan || 'Debug' }}
   DEVICE: ${{ inputs.device || 'iPhone 14' }}
-  ALLURE_TOKEN: ${{ secrets.ALLURE_TOKEN }}
-  ALLURE_ENDPOINT: https://allure.autotests.cloud/
-  ALLURE_PROJECT_ID: 3978
-  ALLURE_RESULTS: allure-results
 
 jobs:
   build:
-    name: Build and Test default scheme using any available iPhone simulator
+    name: Build and Test Calculator App
     runs-on: macos
 
     steps:
       - name: Checkout git
-        uses: actions/checkout@v3
-      - name: Get info
+        uses: actions/checkout@v4
+        
+      - name: Get Environment Info
         run: env
-      - name: Clean old files
+        working-directory: ${{ github.workspace }}
+
+      - name: Clean old Files
         run: |
           rm -rf ./DerivedData
           rm -rf ./Report
+          rm -rf ./allure-results
           rm -rf xcresults
-      - name: Setup env
-        run: |
-          ruby -v
-          bundle install
+
+      - name: Install gemfile dependencies
+        run: bundle install
+
       - name: Build app
         run: fastlane ios build_calculator
-      - name: Run tests
-        run: fastlane ios test_app testplan:"${TESTPLAN}" device:"${DEVICE}"
+
+      - name: Run UI-tests
+        run: fastlane ios test_app testplan:"${TESTPLAN}" device:'${DEVICE}'
+
       - name: Install xcresults
         if: ${{ always()}}
         run: |
           curl -OL https://github.com/eroshenkoam/xcresults/releases/latest/download/xcresults
           chmod +x xcresults
-      - name: Convert to allure results
+
+      - name: Convert xcresult to allure-results
         if: ${{ always()}}
         run: |
           ./xcresults export ./Report/TurboCalculator.xcresult ./allure-results
-      - name: Save allure results
+
+      - name: Save allure-results
         if: ${{ always()}}
         uses: actions/upload-artifact@v4.1.0
         with:
           name: Allure
           path: allure-results
-          retention-days: 30
+          retention-days: 15
 
-  report:
-    name: Send report to TestOPS
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download allure results
-        uses: actions/download-artifact@v4
-        with:
-          name: Allure
-          path: allure-results   
+      - name: Download allurectl (macos-arm)
+        if: ${{ always()}}
+        run: |
+          curl -L https://github.com/allure-framework/allurectl/releases/latest/download/allurectl_darwin_arm64 -o allurectl
+          chmod +x allurectl
 
-      - name: Upload allure-results to Allure TestOPS
-        uses: simple-elf/allurectl-action@master
-        id: allure-ee
-        with:
-          allure_results: $ALLURE_RESULTS
-          allure_ee_endpoint: $ALLURE_ENDPOINT
-          allure_ee_token: $ALLURE_TOKEN
-          project_id: $ALLURE_PROJECT_ID
+      - name: Upload Results to TestOPS
+        if: ${{ always()}}
+        env:
+          LAUNCH_NAME: 'Launch $${{ GITHUB_RUN_NUMBER }} from ${{ GITHUB_REPOSITORY }}'
+        run: |
+          ./allurectl upload \
+            --endpoint https://allure.autotests.cloud/ \
+            --token ${{ secrets.ALLURE_TOKEN }} \
+            --project-id 3978 \
+            --launch-name ${LAUNCH_NAME} \
+            allure-results
