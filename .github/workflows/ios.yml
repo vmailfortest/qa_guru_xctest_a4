@@ -60,7 +60,7 @@ jobs:
         run: fastlane ios build_calculator
 
       - name: Run UI-tests
-        run: fastlane ios test_app testplan:"${TESTPLAN}" device:'${DEVICE}'
+        run: fastlane ios test_app testplan:"${TESTPLAN}" device:"${DEVICE}"
 
       - name: Install xcresults
         if: ${{ always()}}
@@ -96,5 +96,9 @@ jobs:
             --endpoint https://allure.autotests.cloud/ \
             --token ${{ secrets.ALLURE_TOKEN }} \
             --project-id 3978 \
-            --launch-name "${LAUNCH_NAME}"" \
+            --launch-name "${LAUNCH_NAME}" \
             allure-results
+
+      - name: Adding Summary
+        if: ${{ always()}}
+        run: echo "### Hello QA Guru! :rocket:" >> $GITHUB_STEP_SUMMARY
