@@ -36,6 +36,7 @@ jobs:
   build:
     name: Build and Test Calculator App
     runs-on: macos
+    timeout-minutes: 20
 
     steps:
       - name: Checkout git
@@ -90,7 +91,7 @@ jobs:
       - name: Upload Results to TestOPS
         if: ${{ always()}}
         env:
-          LAUNCH_NAME: "Launch ${GITHUB_RUN_NUMBER} from ${GITHUB_REPOSITORY}"
+          LAUNCH_NAME: "Launch ${{ env.GITHUB_RUN_NUMBER }} from ${{ env.GITHUB_REPOSITORY }}"
         run: |
           ./allurectl upload \
             --endpoint https://allure.autotests.cloud/ \
@@ -101,4 +102,5 @@ jobs:
 
       - name: Adding Summary
         if: ${{ always()}}
-        run: echo "### Hello QA Guru! :rocket:" >> $GITHUB_STEP_SUMMARY
+        run: | 
+          echo "### Hello QA Guru! :rocket:" >> $GITHUB_STEP_SUMMARY
