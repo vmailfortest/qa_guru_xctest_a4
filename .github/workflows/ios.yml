@@ -34,7 +34,7 @@ env:
 
 jobs:
   build:
-    name: Build and Test Calculator App
+    name: Build and test Calculator app
     runs-on: macos
     timeout-minutes: 20
 
@@ -42,11 +42,11 @@ jobs:
       - name: Checkout git
         uses: actions/checkout@v4
         
-      - name: Get Environment Info
+      - name: Get environment info
         run: env
         working-directory: ${{ github.workspace }}
 
-      - name: Clean Cache Files
+      - name: Clean cache files
         run: |
           rm -rf ./DerivedData
           rm -rf ./Report
@@ -54,7 +54,7 @@ jobs:
           rm -rf xcresults
           rm -rf allurectl
 
-      - name: Install Ruby dependencies
+      - name: Install ruby dependencies
         run: bundle install
 
       - name: Build app
@@ -88,18 +88,21 @@ jobs:
           curl -L https://github.com/allure-framework/allurectl/releases/latest/download/allurectl_darwin_arm64 -o allurectl
           chmod +x allurectl
 
-      - name: Upload Results to TestOPS
+      - name: Upload results to TestOPS
         if: ${{ always()}}
         run: |
           ./allurectl upload \
             --endpoint https://allure.autotests.cloud/ \
             --token ${{ secrets.ALLURE_TOKEN }} \
             --project-id 3978 \
-            --launch-name  "Launch ${{ github.run_number }} of ${{ env.TESTPLAN }} testplan on ${{ env.DEVICE }}" \
+            --launch-name  "Launch: ${{ github.run_number }} Test plan: ${{ env.TESTPLAN }} Device: ${{ env.DEVICE }}" \
             allure-results
 
-      - name: Adding Summary
+      - name: Adding summary
         if: ${{ always()}}
         run: | 
           echo "### Hello QA Guru! :fire:" >> $GITHUB_STEP_SUMMARY
-          echo "Launch ${{ env.GITHUB_RUN_NUMBER }} of ${{ env.TESTPLAN }} testplan on ${{ env.DEVICE }}" >> $GITHUB_STEP_SUMMARY
+          echo "Launch: ${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
+          echo "Test plan: ${{ env.TESTPLAN }}" >> $GITHUB_STEP_SUMMARY
+          echo "Device: ${{ env.DEVICE }}" >> $GITHUB_STEP_SUMMARY
+          
