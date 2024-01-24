@@ -1,10 +1,3 @@
-//
-//  Allure.swift
-//  CalculatorUITests
-//
-//  Created by user on 23.01.2024.
-//
-
 import XCTest
 
 public protocol Allure {}
@@ -17,24 +10,12 @@ public extension Allure {
         label(name: "ALLURE_ID", values: stringValue)
     }
 
-    func testOpsId(_ value: String) {
-        label(name: "ALLURE_ID", values: value)
-    }
-
     func feature(_ value: String) {
         label(name: "feature", values: value)
     }
 
-    func suite(_ level: Int32, _ value: String) {
-        var name: String
-        name = "suite" + String(level)
-        label(name: name, values: value)
-    }
-
-    func label(name: String, values: [String]) {
-        for value in values {
-            XCTContext.runActivity(named: "allure.label." + name + ":" + value, block: { _ in })
-        }
+    func severity(_ value: String) {
+        label(name: "severity", values: value)
     }
 
     func label(name: String, values: String) {
@@ -45,10 +26,6 @@ public extension Allure {
         XCTContext.runActivity(named: name) { _ in
             step()
         }
-    }
-
-    func testName(_ value: String) {
-        label(name: "test_name", values: value)
     }
 
 }
