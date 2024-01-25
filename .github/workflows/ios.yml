@@ -1,58 +1,92 @@
 name: iOS UI-tests
 
 on:
+  push:
+    branches:
+      - main
+      - develop
   workflow_dispatch:
     inputs:
       testplan:
         required: true
-        default: 'debug'
+        default: 'Debug'
         type: choice
         options:
-          - debug
-          - regress
-          - smoke
+          - Debug
+          - Regress
+          - Smoke
+      device:
+        required: true
+        default: 'iPhone 15'
+        type: choice
+        options:
+          - 'iPhone 13'
+          - 'iPhone 14'
+          - 'iPhone 15'
+          - 'iPhone 15 Pro'
 
 env:
-  LC_ALL: en_US.UTF-8
-  LANG: en_US.UTF-8
+  LC_ALL: 'en_US.UTF-8'
+  LANG: 'en_US.UTF-8'
+  LANGUAGE: 'en_US.UTF-8'
+  TESTPLAN: ${{ inputs.testplan || 'Debug' }}
+  DEVICE: ${{ inputs.device || 'iPhone 15' }}
 
 jobs:
   build:
-    name: Build and Test default scheme using any available iPhone simulator
+    name: Build and test Calculator app
     runs-on: macos
+    timeout-minutes: 20
 
     steps:
       - name: Checkout git
-        uses: actions/checkout@v3
-      - name: Get info
+        uses: actions/checkout@v4
+        
+      - name: Get environment info
         run: env
-      - name: Clean old files
+        working-directory: ${{ github.workspace }}
+
+      - name: Clean cache files
         run: |
           rm -rf ./DerivedData
           rm -rf ./Report
+          rm -rf ./allure-results
           rm -rf xcresults
-      - name: Setup env
-        run: |
-          ruby -v
-          bundle install
+          rm -rf allurectl
+
+      - name: Install ruby dependencies
+        run: bundle install
+
       - name: Build app
         run: fastlane ios build_calculator
-      - name: Run tests
-        run: fastlane ios test_app
+
+      - name: Run UI-tests
+        run: fastlane ios test_app testplan:"${TESTPLAN}" device:"${DEVICE}"
+
       - name: Install xcresults
         if: ${{ always()}}
         run: |
           curl -OL https://github.com/eroshenkoam/xcresults/releases/latest/download/xcresults
           chmod +x xcresults
-      - name: Convert to allure results
+
+      - name: Convert xcresult to allure-results
         if: ${{ always()}}
         run: |
           ./xcresults export ./Report/TurboCalculator.xcresult ./allure-results
-      - name: Save allure results
+
+      - name: Save allure-results
         if: ${{ always()}}
         uses: actions/upload-artifact@v4.1.0
         with:
           name: Allure
           path: allure-results
-          retention-days: 30
-        
+          retention-days: 15
+
+      - name: Adding summary
+        if: ${{ always()}}
+        run: | 
+          echo "### Hello QA Guru! :fire:" >> $GITHUB_STEP_SUMMARY
+          echo "Launch: ${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
+          echo "Test plan: ${{ env.TESTPLAN }}" >> $GITHUB_STEP_SUMMARY
+          echo "Device: ${{ env.DEVICE }}" >> $GITHUB_STEP_SUMMARY
+          

@@ -15,10 +15,10 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
-### ios build_app
+### ios build_calculator
 
 ```sh
-[bundle exec] fastlane ios build_app
+[bundle exec] fastlane ios build_calculator
 ```
 
 Build calculator app
