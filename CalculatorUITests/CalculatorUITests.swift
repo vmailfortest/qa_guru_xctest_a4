@@ -96,7 +96,8 @@ final class CalculatorUITests: XCTestCase {
     func testSkip() throws {
         app.launch()
         let deviceName = ProcessInfo.processInfo.environment["DEVICE"]
-        
+        print("---device")
+        print(deviceName)
         try XCTSkipIf(deviceName=="iPhone 15", "Device is not supported for this test.")
         
         app/*@START_MENU_TOKEN@*/.staticTexts["2"]/*[[".buttons[\"2\"].staticTexts[\"2\"]",".staticTexts[\"2\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
@@ -107,8 +108,9 @@ final class CalculatorUITests: XCTestCase {
     func testErrorHandling() throws {
         app.launch()
         let deviceName = ProcessInfo.processInfo.environment["DEVICE"]
-        
-        guard deviceName == "iPhone 14" else {
+        print("---device")
+        print(deviceName)
+        guard deviceName == "iPhone 15" else {
             throw CalcError.notSupportedDevice
         }
 
