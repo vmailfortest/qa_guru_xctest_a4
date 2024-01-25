@@ -89,4 +89,5 @@ jobs:
           echo "Launch: ${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
           echo "Test plan: ${{ env.TESTPLAN }}" >> $GITHUB_STEP_SUMMARY
           echo "Device: ${{ env.DEVICE }}" >> $GITHUB_STEP_SUMMARY
+          git log -1 --pretty=%B >> $GITHUB_STEP_SUMMARY
           
