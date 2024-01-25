@@ -41,7 +41,7 @@ jobs:
     steps:
       - name: Checkout git
         uses: actions/checkout@v4
-        
+
       - name: Get environment info
         run: env
         working-directory: ${{ github.workspace }}
@@ -84,9 +84,9 @@ jobs:
 
       - name: Adding summary
         if: ${{ always()}}
-        run: | 
+        run: |
           echo "### Hello QA Guru! :fire:" >> $GITHUB_STEP_SUMMARY
           echo "Launch: ${{ github.run_number }}" >> $GITHUB_STEP_SUMMARY
           echo "Test plan: ${{ env.TESTPLAN }}" >> $GITHUB_STEP_SUMMARY
           echo "Device: ${{ env.DEVICE }}" >> $GITHUB_STEP_SUMMARY
-          
+          git log -1 --pretty=%B >> $GITHUB_STEP_SUMMARY

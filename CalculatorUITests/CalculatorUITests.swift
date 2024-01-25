@@ -92,4 +92,43 @@ final class CalculatorUITests: XCTestCase {
 
         XCTAssertFalse(app.staticTexts["Ошибка"].exists)
     }
+    
+    func testSkip() throws {
+        app.launch()
+        let deviceName = ProcessInfo.processInfo.environment["DEVICE"]
+
+        try XCTSkipIf(deviceName != "iPhone 15", "Test should run on iPhone 15 only.")
+        
+        app/*@START_MENU_TOKEN@*/.staticTexts["2"]/*[[".buttons[\"2\"].staticTexts[\"2\"]",".staticTexts[\"2\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.buttons["AC"].tap()
+        XCTAssert(app.buttons["resultString"].staticTexts["0"].exists)
+    }
+    
+    func testErrorHandling() throws {
+        app.launch()
+        let deviceName = ProcessInfo.processInfo.environment["DEVICE"]
+        
+        guard deviceName != "iPhone 15" else {
+            throw CalcError.notSupportedDevice
+        }
+
+        app/*@START_MENU_TOKEN@*/.staticTexts["2"]/*[[".buttons[\"2\"].staticTexts[\"2\"]",".staticTexts[\"2\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.buttons["AC"].tap()
+        XCTAssert(app.buttons["resultString"].staticTexts["0"].exists)
+    }
+    
+    func testWait() throws {
+        app.launch()
+
+        app/*@START_MENU_TOKEN@*/.staticTexts["2"]/*[[".buttons[\"2\"].staticTexts[\"2\"]",".staticTexts[\"2\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        app.buttons["AC"].tap()
+        
+        XCTAssert(app.buttons["resultString"].staticTexts["0"]
+            .waitForExistence(timeout: 2))
+    }
+}
+
+enum CalcError: Error {
+    case notSupportedDevice
+    case someOtherError
 }
