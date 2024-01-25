@@ -108,7 +108,7 @@ final class CalculatorUITests: XCTestCase {
         app.launch()
         let deviceName = ProcessInfo.processInfo.environment["DEVICE"]
         
-        guard deviceName == "iPhone 15" else {
+        guard deviceName != "iPhone 15" else {
             throw CalcError.notSupportedDevice
         }
 
