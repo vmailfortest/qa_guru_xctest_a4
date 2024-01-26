@@ -13,6 +13,7 @@
 		0501C70B293B61C90073A10F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0501C709293B61C90073A10F /* Main.storyboard */; };
 		0501C70D293B61CB0073A10F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0501C70C293B61CB0073A10F /* Assets.xcassets */; };
 		0501C710293B61CB0073A10F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0501C70E293B61CB0073A10F /* LaunchScreen.storyboard */; };
+		CE8980722B5EE782003EFDC9 /* Allure.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8980712B5EE782003EFDC9 /* Allure.swift */; };
 		CE8FE3F62B5598C70001E2C8 /* CalculatorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8FE3F52B5598C70001E2C8 /* CalculatorUITests.swift */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +38,7 @@
 		0501C711293B61CB0073A10F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CE47A0DC2B55BC1B008BE55C /* Smoke.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = Smoke.xctestplan; path = CalculatorUITests/Smoke.xctestplan; sourceTree = "<group>"; };
 		CE47A0DD2B55BC2D008BE55C /* Debug.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = Debug.xctestplan; path = CalculatorUITests/Debug.xctestplan; sourceTree = "<group>"; };
+		CE8980712B5EE782003EFDC9 /* Allure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Allure.swift; sourceTree = "<group>"; };
 		CE8FE3F32B5598C70001E2C8 /* CalculatorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CalculatorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE8FE3F52B5598C70001E2C8 /* CalculatorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorUITests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -97,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				CE8FE3F52B5598C70001E2C8 /* CalculatorUITests.swift */,
+				CE8980712B5EE782003EFDC9 /* Allure.swift */,
 			);
 			path = CalculatorUITests;
 			sourceTree = "<group>";
@@ -212,6 +215,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE8980722B5EE782003EFDC9 /* Allure.swift in Sources */,
 				CE8FE3F62B5598C70001E2C8 /* CalculatorUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
